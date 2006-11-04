@@ -47,7 +47,7 @@ class transmit_path(gr.flow_graph):
         
         self.connect(self.sin, self.gain)
         self.connect(self.gain, self.ftos, self.u)
-        self.connect(self.gain, self.filesink)
+        #self.connect(self.gain, self.filesink)
         
         self.set_gain(self.subdev.gain_range()[1])  # set max Tx gain
         self.set_auto_tr(True)                      # enable Auto Transmit/Receive switching
