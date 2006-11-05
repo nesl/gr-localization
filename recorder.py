@@ -62,7 +62,14 @@ class rx_graph (gr.flow_graph):
         self.filesink = gr.file_sink(gr.sizeof_float, 'rx_sin.dat')
         self.stof = gr.short_to_float()
 
-        self.connect(self.u, self.stof, self.filesink)
+        filter_coeffs = gr.firdes.low_pass (1.0,                # gain
+                                          self.fs,                # sampling rate
+                                          self.freq,              # low pass cutoff freq
+                                          0.1*self.freq,                # width of trans. band
+                                          gr.firdes.WIN_HANN) # filter type 
+        
+        self.lowpass = gr.fir_filter_fff(1, filter_coeffs)
+        self.connect(self.u, self.stof, self.lowpass, self.filesink)
 
 def main ():
 
